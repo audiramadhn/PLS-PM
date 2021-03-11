@@ -1,5 +1,9 @@
+#Thanks to @Gastonstat code tutorial
+
 library(plspm)
-library(car)
+library(readxl)
+
+Data_Ordinal = read_excel("C:/Users/Bayu/Downloads/Data Ordinal Skripsi.xlsx")
 
 #inner model (Pengaruh variabel independent - dependent)
 CX = c(0,0,0,0,0,0,0,0,0)
@@ -19,7 +23,7 @@ block = list(1:3,4:6,7:11,12:13,14:15,16:18,19:21,22:24,25:27)
 #model reflektif (A) & formatif (B)
 modes = rep("A",9)
 
-#jenis skala pengukuran (ORD=ordinal, NOM=nominal, NUM=rasio)
+#jenis skala pengukuran (ORD=ordinal, NOM=nominal, NUM=rasio/interval)
 scaling = list(c("ORD","ORD","ORD"),c("ORD","ORD","ORD"),c("ORD","ORD","ORD","ORD","ORD"),
                c("ORD","ORD"),c("ORD","ORD"),c("ORD","ORD","ORD"),c("ORD","ORD","ORD"),c("ORD","ORD","ORD")
               ,c("ORD","ORD","ORD"))
@@ -27,10 +31,6 @@ scaling = list(c("ORD","ORD","ORD"),c("ORD","ORD","ORD"),c("ORD","ORD","ORD","OR
 
 #running pls
 #scheme= ""path", "factor", "centroid"
-pls = plspm(Data_Ordinal_Skripsi, path, block, modes, scaling, scheme = "path", boot.val = FALSE)
+pls = plspm(Data_Ordinal, path, block, modes, scaling, scheme = "path", boot.val = FALSE)
+summary(pls)
 plot(pls)
-
-
-#VIF
-model1 = lm(ITU~., data = Total_Test_Skripsi)
-model2 = lm(USF~ CX + CB + RA + PD + PC + A + D, data = Total_Test_Skripsi)
